@@ -1,2 +1,2 @@
 # copipy
-Adding copyright to your all project files made easy.
+Adding copyright to your all project files is now easy.
