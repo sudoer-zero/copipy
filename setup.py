@@ -1,4 +1,5 @@
 import setuptools
+from src.main import __version__
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
@@ -7,11 +8,11 @@ setuptools.setup(
     name="copipy",
     entry_points={
       'console_scripts': [
-        'copipy = main.hello:hello_world',
+        'copipy = main.cli:main',
       ]
     },
-    version="0.0.1",
     author="Sudoer",
+    version=__version__,
     author_email="sudoer.zero@gmail.com",
     description="Adding copyright to your project files is now easy",
     long_description=long_description,
