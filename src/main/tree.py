@@ -9,6 +9,7 @@ ELBOW = "└──"
 TEE = "├──"
 PIPE_PREFIX = "│   "
 SPACE_PREFIX = "    "
+file_count = []
 
 
 class DirectoryTree:
@@ -39,6 +40,7 @@ class _TreeGenerator:
     def build_tree(self):
         self._tree_head()
         self._tree_body(self._root_dir)
+        self._tree_count()
         return self._tree
 
     def _tree_head(self):
@@ -56,6 +58,9 @@ class _TreeGenerator:
                 )
             else:
                 self._add_file(entry, prefix, connector)
+    
+    def _tree_count(self):
+        print('Copyright has been added to {} files.'.format(len(file_count)))
 
     def _prepare_entries(self, directory):
         entries = directory.iterdir()
@@ -69,10 +74,10 @@ class _TreeGenerator:
         self, directory, index, entries_count, prefix, connector
     ):
         
-        if directory.name.startswith("."):
+        if directory.name.startswith(".") or directory.name.startswith("__"):
             pass
         else:
-            self._tree.append(f"{prefix}{connector} {directory.name}{os.sep} dir")
+            self._tree.append(f"{prefix}{connector} {directory.name}{os.sep}")
             if index != entries_count - 1:
                 prefix += PIPE_PREFIX
             else:
@@ -87,9 +92,11 @@ class _TreeGenerator:
         
         if file.name.startswith("__") or file.name.startswith("."):
             pass
-        else:
-            self._tree.append(f"{prefix}{connector} {file.name} file")
-            
+        elif file.name.endswith(".py"):
+            self._tree.append(f"{prefix}{connector} {file.name}")
             edit_file = open(file, 'a')
-            edit_file.write("\n# This line has been added by CopiPy for testing!")
+            edit_file.write("\n# Copyright © 2022 - This line has been added by CopiPy")
             edit_file.close()
+            file_count.append(file.name)
+        else:
+            pass
