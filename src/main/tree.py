@@ -94,9 +94,11 @@ class _TreeGenerator:
             pass
         elif file.name.endswith(".py"):
             self._tree.append(f"{prefix}{connector} {file.name}")
-            edit_file = open(file, 'a')
-            edit_file.write("\n# Copyright © 2022 - This line has been added by CopiPy")
-            edit_file.close()
+            line = "\n# Copyright © 2022 - This line has been added by CopiPy"
+            with open(file, 'r+') as f:
+                content = f.read()
+                f.seek(0, 0)
+                f.write(line.rstrip('\r\n') + '\n' + content)
             file_count.append(file.name)
         else:
             pass
